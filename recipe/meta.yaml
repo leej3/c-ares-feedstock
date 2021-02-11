@@ -22,9 +22,11 @@ outputs:
       build:
         - {{ compiler("c") }}
         - cmake  # [win]
+{% if bootstrapping != 'yes' %}
         # cmake on unix depends on c-ares. This breaks the cycle.
         - cmake-no-system  # [unix]
         - ninja  # [unix]
+{% endif %}
       run_constraint:
         - c-ares-static <0a0
     test:
@@ -44,9 +46,11 @@ outputs:
       build:
         - {{ compiler("c") }}
         - cmake  # [win]
+{% if bootstrapping != 'yes' %}
         # cmake on unix depends on c-ares. This breaks the cycle.
         - cmake-no-system  # [unix]
         - ninja  # [unix]
+{% endif %}
       run_constraint:
         - c-ares <0a0
     test:
