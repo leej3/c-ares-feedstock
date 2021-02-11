@@ -9,7 +9,12 @@ source:
   sha256: d73dd0f6de824afd407ce10750ea081af47eba52b8a6cb307d220131ad93fc40
 
 build:
+{% if bootstrapping == 'yes' %}
   number: 0
+  string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}_bootstrapping
+{% else %}
+  number: 1
+{% endif %}
 
 outputs:
   - name: c-ares
