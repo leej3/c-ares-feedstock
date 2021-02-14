@@ -15,6 +15,8 @@ build:
 {% else %}
   number: 1
 {% endif %}
+  script_env:
+    - BOOTSTRAPPING={{ bootstrapping }}
 
 outputs:
   - name: c-ares
@@ -26,14 +28,14 @@ outputs:
     requirements:
       build:
         - {{ compiler("c") }}
-        - cmake  # [win]
 {% if bootstrapping != 'yes' %}
+        - cmake  # [win]
         # cmake on unix depends on c-ares. This breaks the cycle.
         - cmake-no-system  # [unix]
         - ninja  # [unix]
-{% endif %}
       run_constraint:
         - c-ares-static <0a0
+{% endif %}
     test:
       commands:
         - test -f ${PREFIX}/include/ares.h            # [not win]
@@ -50,14 +52,14 @@ outputs:
     requirements:
       build:
         - {{ compiler("c") }}
-        - cmake  # [win]
 {% if bootstrapping != 'yes' %}
+        - cmake  # [win]
         # cmake on unix depends on c-ares. This breaks the cycle.
         - cmake-no-system  # [unix]
         - ninja  # [unix]
-{% endif %}
       run_constraint:
         - c-ares <0a0
+{% endif %}
     test:
       commands:
         - test -f ${PREFIX}/lib/libcares.a  # [not win]
